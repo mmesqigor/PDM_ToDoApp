@@ -53,7 +53,7 @@ fun TaskComponent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "${task.startTime}\nAM",
+                text = "${task.startTime}",
                 fontFamily = FontFamily(Font(R.font.nunito_bold)),
                 textAlign = TextAlign.Center
             )
