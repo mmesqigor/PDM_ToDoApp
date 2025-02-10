@@ -8,14 +8,22 @@ import java.time.LocalDateTime
 class TaskRepositoryImpl(
     private val dao: TaskDao
 ) : TaskRepository {
-    override suspend fun insert(title: String, description: String?, startTime: String, endTime: String) {
-        val entity = TaskEntity(
+    override suspend fun insert(title: String, description: String?, startTime: String, endTime: String, id: Long?) {
+        val entity = id?.let {
+            dao.getBy(it)?.copy(
+                    title = title,
+                    description = description,
+                    startTime = startTime,
+                    endTime = endTime
+                )
+        } ?: TaskEntity(
             title = title,
             description = description,
             startTime = startTime,
             endTime = endTime,
             isCompleted = false
         )
+
         dao.insert(entity)
     }
 

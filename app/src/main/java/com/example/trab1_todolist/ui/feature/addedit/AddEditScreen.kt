@@ -33,13 +33,17 @@ import com.example.trab1_todolist.ui.theme.Trab1_ToDoListTheme
 
 @Composable
 fun AddEditScreen(
+    id: Long?,
     navigateBack: () -> Unit,
 ) {
     val context = LocalContext.current.applicationContext
     val database = TaskDatabaseProvider.provide(context)
     val repository = TaskRepositoryImpl(dao = database.taskDao)
     val viewModel = viewModel<AddEditViewModel> {
-        AddEditViewModel(repository = repository)
+        AddEditViewModel(
+            id = id,
+            repository = repository
+        )
     }
 
     val title = viewModel.title

@@ -22,6 +22,8 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,29 +33,65 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.trab1_todolist.data.TaskDatabaseProvider
+import com.example.trab1_todolist.data.TaskRepositoryImpl
 import com.example.trab1_todolist.ui.components.TaskComponent
 import com.example.trab1_todolist.domain.Task
 import com.example.trab1_todolist.domain.taskList
+import com.example.trab1_todolist.navigation.AddEditRoute
+import com.example.trab1_todolist.ui.UiEvent
 import com.example.trab1_todolist.ui.components.ProfileHeaderComponent
 import com.example.trab1_todolist.ui.components.WelcomeMessageComponent
+import com.example.trab1_todolist.ui.feature.addedit.AddEditViewModel
 import com.example.trab1_todolist.ui.theme.Trab1_ToDoListTheme
 
 @Composable
 fun ListScreen(
     navigateToAddEditScreen: (id: Long?) -> Unit
 ) {
+    val context = LocalContext.current.applicationContext
+    val database = TaskDatabaseProvider.provide(context)
+    val repository = TaskRepositoryImpl(dao = database.taskDao)
+    val viewModel = viewModel<ListViewModel> {
+        ListViewModel(repository = repository)
+    }
+
+    val tasks by viewModel.tasks.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.uiEvent.collect { uiEvent ->
+            when(uiEvent) {
+                is UiEvent.Navigate<*> -> {
+                    when(uiEvent.route) {
+                        is AddEditRoute -> {
+                            navigateToAddEditScreen(uiEvent.route.id)
+                        }
+                    }
+                }
+                UiEvent.NavigateBack -> {
+
+                }
+                is UiEvent.ShowSnackbar -> {
+
+                }
+            }
+        }
+    }
+
     ListContent(
-        tasks = emptyList(),
-        onAddItemClick = navigateToAddEditScreen
+        tasks = tasks,
+        onEvent = viewModel::onEvent
     )
 }
 
 @Composable
 fun ListContent(
     tasks: List<Task>,
-    onAddItemClick: (id: Long?) -> Unit
+    onEvent: (ListEvent) -> Unit
 ) {
     var selectedScreen by remember { mutableStateOf(1) }
     var screens = listOf("Calendar", "Home", "Notifications")
@@ -98,7 +136,9 @@ fun ListContent(
             }
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { onAddItemClick(null) }) {
+            FloatingActionButton(onClick = {
+                onEvent(ListEvent.AddEdit(null))
+            }) {
                 Icon(Icons.Default.Add, contentDescription = "Add")
             }
         }
@@ -122,12 +162,18 @@ fun ListContent(
 
                 Spacer(modifier = Modifier.height(30.dp))
             }
-            items(tasks) {
+            items(tasks) { task ->
                 TaskComponent(
-                    task = it,
-                    onCompletedChange = {},
-                    onItemClick = {},
-                    onDeleteClick = {}
+                    task = task,
+                    onCompletedChange = {
+                        onEvent(ListEvent.CompleteChanged(task.id, it))
+                    },
+                    onItemClick = {
+                        onEvent(ListEvent.AddEdit(task.id))
+                    },
+                    onDeleteClick = {
+                        onEvent(ListEvent.Delete(task.id))
+                    }
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -142,7 +188,7 @@ private fun ListContentPreview() {
     Trab1_ToDoListTheme {
         ListContent(
             tasks = taskList,
-            onAddItemClick = {}
+            onEvent = {}
         )
     }
 }
