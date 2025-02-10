@@ -36,7 +36,7 @@ fun ProfileHeaderComponent() {
             painter = painterResource(id = R.drawable.profile),
             contentDescription = "Profile Picture",
             modifier = Modifier
-                .size(30.dp)
+                .size(60.dp)
                 .clip(CircleShape)
         )
 
@@ -45,7 +45,7 @@ fun ProfileHeaderComponent() {
                 Badge(
                     containerColor = Orange,
                     contentColor = Color.White,
-                    modifier = Modifier.offset(y = 7.dp, x = (-6).dp)
+                    modifier = Modifier.offset(y = 3.dp, x = (-3).dp)
                 )
             },
             modifier =  Modifier.padding(end = 16.dp)

@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -126,7 +128,10 @@ fun ListContent(
                                     tint = if(selectedScreen == index) Color.White else Color.Black
                                 )
                             }
-                        }
+                        },
+                        colors = androidx.compose.material3.NavigationBarItemDefaults.colors(
+                            indicatorColor = Color.Transparent
+                        )
                     )
                 }
             }
@@ -141,18 +146,19 @@ fun ListContent(
     ) {
         LazyColumn(
             modifier = Modifier
-                .consumeWindowInsets(it),
+                .consumeWindowInsets(it)
+                .fillMaxSize(),
             contentPadding = PaddingValues(
                 start = 16.dp,
                 top = 16.dp,
-                bottom = 16.dp
+                bottom = 150.dp
             )
         ) {
             item {
                 ProfileHeaderComponent()
             }
             item {
-                Spacer(modifier = Modifier.height(30.dp))
+                Spacer(modifier = Modifier.height(15.dp))
 
                 WelcomeMessageComponent(pendingTasks = pendingTasks)
 
