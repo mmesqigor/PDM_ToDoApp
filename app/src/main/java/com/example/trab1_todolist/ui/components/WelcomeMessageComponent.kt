@@ -17,13 +17,13 @@ import com.example.trab1_todolist.ui.theme.LightGray
 fun WelcomeMessageComponent() {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(
-            text = "Hi, Igor!",
+            text = "Olá, Usuário!",
             fontFamily = FontFamily(Font(R.font.nunito_extrabold)),
             fontSize = 22.sp
         )
 
         Text(
-            text = "1 tasks for today",
+            text = "% Tarefas Pendentes",
             fontFamily = FontFamily(Font(R.font.nunito_regular)),
             fontSize = 18.sp,
             color = LightGray

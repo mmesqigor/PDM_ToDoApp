@@ -34,21 +34,5 @@ val taskList = listOf(
         "13:00",
         "14:00",
         false
-    ),
-    Task(
-        4,
-        "Water Plants",
-        "Water indoor and outdoor plants",
-        "15:00",
-        "16:00",
-        false
-    ),
-    Task(
-        5,
-        "Cook Dinner",
-        "Prepare a meal for the family",
-        "18:00",
-        "19:00",
-        false
     )
 )

@@ -46,7 +46,6 @@ import com.example.trab1_todolist.navigation.AddEditRoute
 import com.example.trab1_todolist.ui.UiEvent
 import com.example.trab1_todolist.ui.components.ProfileHeaderComponent
 import com.example.trab1_todolist.ui.components.WelcomeMessageComponent
-import com.example.trab1_todolist.ui.feature.addedit.AddEditViewModel
 import com.example.trab1_todolist.ui.theme.Trab1_ToDoListTheme
 
 @Composable
@@ -72,12 +71,8 @@ fun ListScreen(
                         }
                     }
                 }
-                UiEvent.NavigateBack -> {
-
-                }
-                is UiEvent.ShowSnackbar -> {
-
-                }
+                UiEvent.NavigateBack -> {  }
+                is UiEvent.ShowSnackbar -> {  }
             }
         }
     }

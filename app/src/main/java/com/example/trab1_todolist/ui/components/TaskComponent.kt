@@ -1,9 +1,10 @@
 package com.example.trab1_todolist.ui.components
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,7 +15,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -34,6 +34,7 @@ import com.example.trab1_todolist.domain.Task
 import com.example.trab1_todolist.ui.theme.LightBlue
 import com.example.trab1_todolist.ui.theme.LightGreen
 import com.example.trab1_todolist.ui.theme.LightPurple
+
 
 @Composable
 fun TaskComponent(
@@ -58,16 +59,15 @@ fun TaskComponent(
             )
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(
-                    checked = task.isCompleted,
-                    onCheckedChange = onCompletedChange,
+                Box(
                     modifier = Modifier
-                        .size(16.dp)
+                        .size(20.dp)
                         .clip(CircleShape)
-                        .border(
-                            border = BorderStroke(3.dp, Color.Black),
-                            shape = CircleShape
-                        )
+                        .background(if (task.isCompleted) Color.Black else Color.Transparent)
+                        .border(3.dp, Color.Black, CircleShape)
+                        .clickable {
+                            onCompletedChange(!task.isCompleted)
+                        }
                 )
 
                 Divider(
@@ -116,11 +116,17 @@ fun TaskComponent(
                                 )
                         )
 
-                        IconButton(onClick = onDeleteClick) {
-                            Icon(
-                                imageVector = Icons.Default.Delete,
-                                contentDescription = "Delete"
-                            )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.End
+                        ) {
+                            IconButton(onClick = onDeleteClick) {
+                                Icon(
+                                    imageVector = Icons.Default.Delete,
+                                    contentDescription = "Delete"
+                                )
+                            }
                         }
                     }
 
