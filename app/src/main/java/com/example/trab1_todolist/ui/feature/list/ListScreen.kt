@@ -90,6 +90,7 @@ fun ListContent(
 ) {
     var selectedScreen by remember { mutableStateOf(1) }
     var screens = listOf("Calendar", "Home", "Notifications")
+    val pendingTasks = tasks.count { !it.isCompleted }
 
     Scaffold(
         bottomBar = {
@@ -153,7 +154,7 @@ fun ListContent(
             item {
                 Spacer(modifier = Modifier.height(30.dp))
 
-                WelcomeMessageComponent()
+                WelcomeMessageComponent(pendingTasks = pendingTasks)
 
                 Spacer(modifier = Modifier.height(30.dp))
             }

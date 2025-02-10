@@ -13,8 +13,9 @@ import com.example.trab1_todolist.R
 import com.example.trab1_todolist.ui.theme.LightGray
 
 @Composable
-@Preview
-fun WelcomeMessageComponent() {
+fun WelcomeMessageComponent(
+    pendingTasks: Int
+) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(
             text = "Olá, Usuário!",
@@ -23,7 +24,7 @@ fun WelcomeMessageComponent() {
         )
 
         Text(
-            text = "% Tarefas Pendentes",
+            text = "$pendingTasks Tarefas Pendentes",
             fontFamily = FontFamily(Font(R.font.nunito_regular)),
             fontSize = 18.sp,
             color = LightGray
