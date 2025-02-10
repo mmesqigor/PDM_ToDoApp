@@ -1,4 +1,4 @@
-package com.example.trab1_todolist.components
+package com.example.trab1_todolist.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
